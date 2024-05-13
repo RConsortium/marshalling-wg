@@ -1,5 +1,9 @@
 # ISC Working Group 'Marshaling and Serialization in R'
 
+Welcome to the [R Consortium ISC Work
+Group](https://www.r-consortium.org/all-projects/isc-working-groups)
+on Marshaling and Serialization in R started in May 2024.
+
 ## Background and Problem
 
 _Serialization_ is a useful tool for saving R objects to file, or
