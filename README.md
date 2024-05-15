@@ -42,15 +42,19 @@ contrary to `serialize()` and `unserialize()`, there is no
 well-established standard for marshalling and unmarshalling in R,
 which means each user and developer has to be aware of the problem and
 know which specialized functions to call to handle the problem, if at
-all possible.  Goals This working group aims at developing standard
-practices for marshalling and unmarshalling of R objects.  This will
+all possible.  
+
+## Goals  
+This working group aims at developing standard practices for marshalling and unmarshalling of R objects.  This will
 involve identifying current problems, raising awareness of it, coming
 up with technical solutions, which might require additions to base
 R. For example, one solution _might_ be to introduce support for
 `serialize()` and `unserialize()` to call registered hook functions
 whenever certain types of objects are encountered, which then could
-marshall and unmarshall those objects.  Working Group Operations Our
-main modes of communication will be through issues and discussions on
+marshall and unmarshall those objects.  
+
+## Working Group Operations  
+Our main modes of communication will be through issues and discussions on
 a GitHub repository specifically created for the working group. We
 will meet online for coordination as needed, initially with an aim to
 meet at every two-to-three months.
