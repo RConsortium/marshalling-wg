@@ -6,7 +6,7 @@ on Marshaling and Serialization in R started in May 2024.
 
 ---
 
-# :calendar: **We're meeting in person on Thursday 2024-07-11 @ 15:30-17:30 UTC+02h at useR! 2024, Salzburg, Austria**
+# :calendar: **We're meeting in person on Thursday 2024-07-11 @ 15:30-17:30 UTC+02h at useR! 2024, Salzburg, Austria. The room is "Wolfgangsee"**
 
 ---
 
