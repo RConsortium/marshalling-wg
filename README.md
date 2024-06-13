@@ -4,6 +4,8 @@ Welcome to the [R Consortium ISC Work
 Group](https://www.r-consortium.org/all-projects/isc-working-groups)
 on Marshaling and Serialization in R started in May 2024.
 
+For instructions on how to join us, see [this issue](https://github.com/RConsortium/marshalling-wg/issues/2).
+
 ---
 
 # :calendar: **We're meeting in person on Thursday 2024-07-11 @ 15:30-17:30 UTC+02h at useR! 2024, Salzburg, Austria. The room is "Wolfgangsee"**
