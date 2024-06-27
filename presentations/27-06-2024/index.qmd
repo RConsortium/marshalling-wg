@@ -1,9 +1,11 @@
 ---
 title: "Marshalling and Serialization in R"
+date: "2024-06-27"
 format:
   revealjs:
     fontfamily: libertinus
     fontsize: 20pt
+    footer: RConsortium Working Group on Marshalling and Serialization
 editor: visual
 execute:
   echo: true
@@ -16,9 +18,9 @@ execute:
 -   Serialization is for example used to:
 
     1.  Write objects to disk
-    2.  Communicating an object to another R process for *parallelization*
+    2.  Communicating an object to another R process, e.g. for *parallelization*
 
-# Shortcomings of Serialization in R
+# Issues with Serialization in R
 
 ## Some R objects cannot be serialized
 
@@ -54,7 +56,7 @@ con2 = readRDS(con)
 
 -   While R uses a copy-on-write mechanism to avoid duplication of data, the current serialization implementation will duplicate the data for all references
 
--   This e.g. causes problems with serializing many `R6` objects, whose methods all point to the same function within an R Session
+-   This can for example cause problems with serializing many `R6` objects, causing exploding object sizes
 
 ```{r}
 library(pryr)
@@ -86,9 +88,7 @@ marshallable = function(x) {
 
 ## A standardized Interface for Marshalling
 
--   "Marshalling is the process of transforming the memory representation of
-    an object into a data format suitable for storage or transmission,
-    especially between different runtimes." (Wikipedia)
+-   "Marshalling is the process of transforming the memory representation of an object into a data format suitable for storage or transmission, especially between different runtimes." (Wikipedia)
 
 -   One could define generics, e.g. named `marshal()` and `unmarshal()`, for which package developers could then implement methods for their classes
 
@@ -108,21 +108,16 @@ marshallable = function(x) {
     marshallable(file(tempfile()))
     ```
 
-## Hooks in `serialize`  and `unserialize`
+## Hooks in `serialize` and `unserialize`
 
--   `serialize()` and `unserialize()` have a `refhook` argument that allows to customize handling of reference objects (such as external pointers)
-
-```{=html}
-<!-- -->
-```
+-   `serialize()` and `unserialize()` have a `refhook` argument that allows to customize handling of reference objects (such as external pointers) and which is used to preservere identities between environments
 -   Excerpt from "A New Serialization Mechanism for R" by Luke Tierney:\
     “Eventually it may be useful to use these hooks to allow objects with a class to have a class-specific serialization mechanism. The serialization format should support this."\
-    Source: <https://homepage.divms.uiowa.edu/~luke/R/serialize/serialize.html>\]
-
+    Source: <https://homepage.divms.uiowa.edu/~luke/R/serialize/serialize.html>
 -   One long-term goal of this working group could be to eventually extend the base R functions
 
 ## Directly Streaming into a Connection
 
--   One disadvantage of first marshalling an R object and then serializing it is that in many cases, we could do away with the additional allocation of the `marshal()` call
+-   One disadvantage of first marshalling an R object and then serializing it is that in many cases, we could do away with the additional allocation of the `marshal()` call, as this is only temporarily needed to then write it to disk or into a pipe
 
--   This might be able to yield some considerable efficiency gains
+-   This might be able to make serialization more efficient
