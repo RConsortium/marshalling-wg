@@ -1,0 +1,128 @@
+---
+title: "Marshalling and Serialization in R"
+format:
+  revealjs:
+    fontfamily: libertinus
+    fontsize: 20pt
+editor: visual
+execute:
+  echo: true
+---
+
+## Serialization in R
+
+-   Serialization is the process of converting an R object into a byte stream
+
+-   Serialization is for example used to:
+
+    1.  Write objects to disk
+    2.  Communicating an object to another R process for *parallelization*
+
+# Shortcomings of Serialization in R
+
+## Some R objects cannot be serialized
+
+-   `torch_tensor`s are an example for non-serializable R objects, but many others exist such as objects from {polars} or {XML}.
+
+-   Not only does the de-serialize roundtrip not work, also the error is only thrown after deserialization, when it is already too late.
+
+-   Package authors currently have to rely on providing custom (de-)serialization functions:
+
+```{r, error = TRUE}
+# this does not work
+tensor = torch::torch_randn(1)
+tensor_ser = serialize(tensor, NULL)
+unserialize(tensor_ser)
+# we need to call custom functions
+tensor_ser = torch::torch_serialize(tensor)
+torch::torch_load(tensor_ser)
+```
+
+## Some Objects should not be serializable at all
+
+-   The `torch_tensor` example before illustrated a use case where we ideally want an object to "just work" without putting any burden on the user, but there are also objects for which we might want to disallow this alltogether, such as file connections
+
+```{r, error = TRUE}
+con = file(tempfile(), open = "wb")
+writeLines("Hello world!", con)
+
+saveRDS(con, tempfile()) # <-- here, an error should be thrown
+con2 = readRDS(con)
+```
+
+## Duplication of Data
+
+-   While R uses a copy-on-write mechanism to avoid duplication of data, the current serialization implementation will duplicate the data for all references
+
+-   This e.g. causes problems with serializing many `R6` objects, whose methods all point to the same function within an R Session
+
+```{r}
+library(pryr)
+x = rnorm(1e6)
+l1 = list(x)
+l2 = list(x, x)
+# both objects have the same size
+object_size(l1)
+object_size(l2)
+
+# after a de-serialization, l2 is double the size of l1
+object_size(unserialize(serialize(l1, NULL)))
+object_size(unserialize(serialize(l2, NULL)))
+```
+
+# A Possible Solution
+
+```{r, include = FALSE}
+marshal = function(x) {
+  torch::torch_serialize(x)
+}
+unmarshal = function(x) {
+  torch::torch_load(x)
+}
+marshallable = function(x) {
+  if (is.character(x)) TRUE else FALSE
+}
+```
+
+## A standardized Interface for Marshalling
+
+-   "Marshalling is the process of transforming the memory representation of
+    an object into a data format suitable for storage or transmission,
+    especially between different runtimes." (Wikipedia)
+
+-   One could define generics, e.g. named `marshal()` and `unmarshal()`, for which package developers could then implement methods for their classes
+
+    ```{r}
+    x = torch::torch_tensor(1)
+    x_des = x |> 
+      marshal() |>
+      serialize(connection = NULL) |> 
+      unserialize() |>
+      unmarshal()
+    ```
+
+    as well as a `marshallable()` generic
+
+    ```{r}
+    marshallable("Hi")
+    marshallable(file(tempfile()))
+    ```
+
+## Hooks in `serialize`  and `unserialize`
+
+-   `serialize()` and `unserialize()` have a `refhook` argument that allows to customize handling of reference objects (such as external pointers)
+
+```{=html}
+<!-- -->
+```
+-   Excerpt from "A New Serialization Mechanism for R" by Luke Tierney:\
+    “Eventually it may be useful to use these hooks to allow objects with a class to have a class-specific serialization mechanism. The serialization format should support this."\
+    Source: <https://homepage.divms.uiowa.edu/~luke/R/serialize/serialize.html>\]
+
+-   One long-term goal of this working group could be to eventually extend the base R functions
+
+## Directly Streaming into a Connection
+
+-   One disadvantage of first marshalling an R object and then serializing it is that in many cases, we could do away with the additional allocation of the `marshal()` call
+
+-   This might be able to yield some considerable efficiency gains
