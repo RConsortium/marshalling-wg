@@ -72,4 +72,13 @@ meet at every two-to-three months.
 
 * [Henrik Bengtsson](https://github.com/HenrikBengtsson) (Futureverse, R Consortium ISC, R Foundation)
 * [Sebastian Fischer](https://github.com/sebffischer) (mlr3)
-* ...
+* [Martin Binder](https://github.com/mb706) (mlr3)
+* [Simon P. Couch](https://github.com/simonpcouch) (tidymodels, bundle)
+* [Mike FC](https://github.com/coolbutuseless) (xxhashlite)
+* [Charlie Gao](https://github.com/shikokuchuo) (mirai, nanotext)
+* [Martin Morgan](https://github.com/mtmorgan) (Bioconductor)
+* [Will Landau](https://github.com/wlandau) (targets, crew)
+* [Luke Tierney](https://github.com/ltierney) (R-core)
+* [Travers Ching](https://traversc.github.io/) (qs)
+* [Julia Silge](https://github.com/juliasilge) (tidymodels, bundle) 
+* [Jiefei Wang](https://github.com/Jiefei-Wang) (BiocParallel, SharedObject)
