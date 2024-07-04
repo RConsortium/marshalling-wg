@@ -75,7 +75,7 @@ meet at every two-to-three months.
 * [Martin Binder](https://github.com/mb706) (mlr3)
 * [Simon P. Couch](https://github.com/simonpcouch) (tidymodels, bundle)
 * [Mike FC](https://github.com/coolbutuseless) (xxhashlite)
-* [Charlie Gao](https://github.com/shikokuchuo) (mirai, nanotext)
+* [Charlie Gao](https://github.com/shikokuchuo) (mirai, nanonext)
 * [Martin Morgan](https://github.com/mtmorgan) (Bioconductor)
 * [Will Landau](https://github.com/wlandau) (targets, crew)
 * [Luke Tierney](https://github.com/ltierney) (R-core)
