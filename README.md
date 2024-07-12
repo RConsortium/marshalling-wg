@@ -8,10 +8,6 @@ For instructions on how to join us, see [this issue](https://github.com/RConsort
 
 ---
 
-# :calendar: **We're meeting in person on Thursday 2024-07-11 @ 15:30-17:30 UTC+02h at useR! 2024, Salzburg, Austria. The room is "Wolfgangsee"**
-
----
-
 ## Background and Problem
 
 _Serialization_ is a useful tool for saving R objects to file, or
