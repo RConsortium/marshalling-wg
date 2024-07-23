@@ -78,3 +78,4 @@ meet at every two-to-three months.
 * [Travers Ching](https://traversc.github.io/) (qs)
 * [Julia Silge](https://github.com/juliasilge) (tidymodels, bundle) 
 * [Jiefei Wang](https://github.com/Jiefei-Wang) (BiocParallel, SharedObject)
+* [Tomasz Kalinowski](https://github.com/t-kalinowski) (mlverse)
